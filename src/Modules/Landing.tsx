@@ -7,7 +7,8 @@ import { useContext } from "react";
 import { TodoContext } from "@/Context/TodoContext";
 
 export function Landing() {
-  const { setFilter } = useContext(TodoContext);
+  const { setFilter, undo, redo, canUndo, canRedo } = useContext(TodoContext);
+
   const handleButtonToggle = (type: "all" | "incomplete" | "complete") => {
     setFilter(type);
   };
@@ -39,6 +40,24 @@ export function Landing() {
           >
             Completed
           </Button>
+          {(canRedo || canUndo) && (
+            <>
+              <Button
+                onClick={undo}
+                disabled={!canUndo}
+                className="rounded-xl focus:bg-green-500"
+              >
+                Undo
+              </Button>
+              <Button
+                onClick={redo}
+                disabled={!canRedo}
+                className="rounded-xl focus:bg-green-500"
+              >
+                Redo
+              </Button>
+            </>
+          )}
         </div>
       </div>
       <TodoList />

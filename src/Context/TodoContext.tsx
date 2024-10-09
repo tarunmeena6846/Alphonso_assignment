@@ -1,13 +1,21 @@
+import { useUndoRedo } from "@/hooks/undoRedo";
 import { Todo, TodoContextType } from "@/lib/types";
 import { createContext, useEffect, useState } from "react";
 export const TodoContext = createContext<TodoContextType | null>(null);
 
 export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
-  const [todos, setTodos] = useState<Todo[]>(() => {
+  const {
+    present: todos,
+    set: setTodos,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+  } = useUndoRedo<Todo[]>(() => {
     const storedTodos = localStorage.getItem("todos");
     return storedTodos ? JSON.parse(storedTodos) : [];
-    [];
   });
+
   const [filter, setFilter] = useState<"all" | "incomplete" | "complete">(
     "all"
   );
@@ -33,7 +41,18 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   }, [todos]);
   return (
     <TodoContext.Provider
-      value={{ todos, addTodo, completeTodo, deleteTodo, filter, setFilter }}
+      value={{
+        todos,
+        addTodo,
+        completeTodo,
+        deleteTodo,
+        filter,
+        setFilter,
+        undo,
+        redo,
+        canUndo,
+        canRedo,
+      }}
     >
       {children}
     </TodoContext.Provider>
