@@ -1,9 +1,16 @@
 import { Todo, TodoContextType } from "@/lib/types";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 export const TodoContext = createContext<TodoContextType | null>(null);
 
 export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    const storedTodos = localStorage.getItem("todos");
+    return storedTodos ? JSON.parse(storedTodos) : [];
+    [];
+  });
+  const [filter, setFilter] = useState<"all" | "incomplete" | "complete">(
+    "all"
+  );
 
   const addTodo = (todo: string) => {
     setTodos([...todos, { id: Date.now(), text: todo, completed: false }]);
@@ -12,7 +19,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const completeTodo = (id: number) => {
     setTodos(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === id ? { ...todo, completed: true } : todo
       )
     );
   };
@@ -21,8 +28,13 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
   return (
-    <TodoContext.Provider value={{ todos, addTodo, completeTodo, deleteTodo }}>
+    <TodoContext.Provider
+      value={{ todos, addTodo, completeTodo, deleteTodo, filter, setFilter }}
+    >
       {children}
     </TodoContext.Provider>
   );

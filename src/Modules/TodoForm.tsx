@@ -22,7 +22,7 @@ const TodoForm = () => {
         value={todo}
         onChange={(e) => setTodo(e.target.value)}
         className="w-full p-2 border rounded-xl"
-        placeholder="Add a new todo..."
+        placeholder="Type something..."
         required
       />
       <Button
