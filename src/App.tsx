@@ -1,9 +1,10 @@
 import "./App.css";
-import { Landing } from "./Modules/Landing";
+import { Landing } from "./components/Modules/Landing";
 
 function App() {
   return (
     <>
+      {/* <Navbar /> */}
       <Landing />
     </>
   );

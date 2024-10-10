@@ -19,7 +19,13 @@ export function Landing() {
     <div className="mx-auto flex min-h-screen flex-col items-center p-4 md:p-24">
       <div className="flex md:flex-row flex-col w-full justify-between mb-7 space-y-3 md:space-y-0">
         <div>
-          <h2 className="order-1 md:order-none text-2xl">Today</h2>
+          <h2 className="order-1 md:order-none text-2xl">
+            {new Date().toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </h2>
         </div>
         <div className="w-full md:w-2/5 order-2 md:order-none">
           <Searchbar />
