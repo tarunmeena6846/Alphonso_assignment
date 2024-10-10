@@ -5,7 +5,11 @@ import React, { useState, useContext } from "react";
 
 const TodoForm = () => {
   const [todo, setTodo] = useState("");
-  const { addTodo } = useContext(TodoContext);
+  const todoContext = useContext(TodoContext);
+  if (!todoContext) {
+    throw new Error("TodoContext not found");
+  }
+  const { addTodo } = todoContext;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

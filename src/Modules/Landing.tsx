@@ -2,12 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Searchbar } from "./SearchBar";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
-import { type } from "os";
 import { useContext } from "react";
 import { TodoContext } from "@/Context/TodoContext";
 
 export function Landing() {
-  const { setFilter, undo, redo, canUndo, canRedo } = useContext(TodoContext);
+  const todoContext = useContext(TodoContext);
+  if (!todoContext) {
+    throw new Error("TodoContext not found");
+  }
+  const { setFilter, undo, redo, canUndo, canRedo } = todoContext;
 
   const handleButtonToggle = (type: "all" | "incomplete" | "complete") => {
     setFilter(type);

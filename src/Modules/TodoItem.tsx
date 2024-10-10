@@ -1,4 +1,4 @@
-export const TodoItem = ({ todo }) => {
+export const TodoItem = ({ todo }: { todo: string }) => {
   console.log(todo);
   return (
     <div className="flex items-center gap-2">
